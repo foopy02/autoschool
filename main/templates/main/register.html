@@ -1,0 +1,64 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}
+Регистрация
+{% endblock %}
+{% block content %}
+<form action="" method="post">
+    <div class=" form-column">
+        {% csrf_token %}
+        <h2 class="text-center mt-4 mb-4">Логин</h2>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="username">Логин</label>
+        <input type="name" class="form-control" name="username" id="username" placeholder="Логин"  required>
+      </div>
+
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="first_name">Атыңыз</label>
+        <input type="name" class="form-control" name="first_name" id="first_name" placeholder="Атыңыз"  required>
+      </div>
+      
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="last_name">Фамилия</label>
+        <input type="name" class="form-control" name="last_name" id="last_name" placeholder="Фамилия"  required>
+      </div>
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="last_name">Әкесінің аты</label>
+        <input type="name" class="form-control" name="patronym" id="patronym" placeholder="Әкесінің аты"  required>
+      </div>
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="last_name">ЖСН</label>
+        <input type="name" class="form-control" name="IIN" id="IIN" placeholder="ЖСН"  required>
+      </div>
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="dateofbirth">Туған күні</label>
+        <input type="date" class="form-control" name="dateofbirth" id="dateofbirth" placeholder=""  required>
+      </div>
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="password">Құпия сөз</label>
+        <input type="password" class="form-control" name="password" id="password"  placeholder="Құпия сөз" required="">
+      </div>
+
+
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="password1">Құпия сөзді қайталау</label>
+        <input type="password" class="form-control" name="password1" id="password1"  placeholder="Құпия сөзді қайталау" required="">
+      </div>
+
+      <div class="col-lg-3 mx-auto mt-3 mb-5">
+        {% if form.errors %}
+        <div class="alert alert-danger mt-3 mb-0">
+           Бұндай логинмен сайтта қолданушы бар. Басқасын тандаңыз
+        </div>
+    {% endif %}
+        <div class="btn-container mt-3">
+          <button type="submit" class="custom_btn">
+            Тіркелу
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  {% endblock %}

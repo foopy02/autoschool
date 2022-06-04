@@ -1,0 +1,73 @@
+{% extends 'main/base.html' %}
+{% block title %}
+Пайдаланушылар
+{% endblock %}
+{% block content %}
+<div class="container" style="min-height: 74vh;">
+    <table class="table mt-5 mb-5">
+        <thead  style="background-color:#022f4a; color: white;">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Аты</th>
+            <th scope="col">Тегі</th>
+            <th scope="col">Әкесінің аты</th>
+            <th scope="col">ЖСН</th>
+            <th scope="col">Туылған күні</th>
+            <th scope="col">Қала</th>
+            <th scope="col">Топ</th>
+            <th scope="col">Сақтау</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{% for profile in profiles %} 
+                {% if profile.user == user %}
+                {{profile.patronym }}
+                {% endif%}
+            {% endfor %}</td>
+            <td>{% for profile in profiles %} 
+                {% if profile.user == user %}
+                {{profile.IIN }}
+                {% endif%}
+            {% endfor %}</td>
+            <td>{% for profile in profiles %} 
+                    {% if profile.user == user %}
+                    {{profile.dateofbirth|date:"Y-m-d" }}
+                    {% endif%}
+                {% endfor %}</td>
+                <td>{% for profile in profiles %} 
+                    {% if profile.user == user and profile.city is not None%}
+                        {{profile.city}}
+                    {% endif%}
+                {% endfor %}</td>
+            <td>    
+                <form action="{% url 'change_group' %}" method="post">
+                <input type="hidden" name="username" value="{{user.username}}">
+                {% csrf_token %}
+                <select class="form-control" id="exampleFormControlSelect1" name="group" >
+                    <option value="-1">Топсыз</option>
+                    {% for group in groups %}
+                        <option value="{{group.id}}" {% if user in group.users.all %} selected {% endif %}>{{group.name}}</option>
+                    {% endfor %}
+              </select></td>
+              <td>
+                    <button type="submit" class="custom_btn">
+                        Сақтау
+                    </button>
+            </form>
+
+             </td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+
+  {% endblock %}

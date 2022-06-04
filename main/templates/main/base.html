@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>{% block title%} {% endblock %}</title>
+
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'main/css/bootstrap.css' %}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700|Roboto:400,700&display=swap" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'main/css/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'main/css/responsive.css' %} " rel="stylesheet" />
+  {%  block additional_css %}
+
+  {% endblock %}
+</head>
+
+<body>
+  <header class="header_section">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <span>
+            AUTOSCHOOL
+          </span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse ml-auto" id="navbarSupportedContent">
+          <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+            <ul class="navbar-nav  ">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Бастапқы бет <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'groups' %}">Топтар</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'users' %}">Пайдаланушылар</a>
+              </li>
+              {% if user.is_authenticated %}
+              <li class="nav-item mr-2">
+                  <a href="{% url 'logout' %}">
+                      <button class="custom_btn ">Шығу</button>
+                  </a>
+
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'profile' %}">
+                  <button class="custom_btn">{{user}}</button>
+              </a>
+            </li>
+              {% else %}
+              <li class="nav-item mr-2">
+                  <a href="{% url 'register' %}">
+                      <button class="custom_btn ">Тіркелу</button>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'login' %}">
+                      <button class="custom_btn">Логин</button>
+                  </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+{% block content %}
+
+{% endblock %}
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section d-flex flex-column align-items-center">
+    <div class="social_links container w-50 d-flex justify-content-between mb-3">
+      <div class="d-flex align-items">
+        <div class="icon_custom mr-2">
+          <img width="24" src="{% static 'main/images/insta_custom.png' %}" alt="">
+        </div>
+        <p>autoschool_astana</p>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="icon_custom mr-2">
+          <img width="24" src="{% static 'main/images/twitter_custom.png' %}" alt="">
+        </div>
+        <p>autoschool_astana</p>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="icon_custom mr-2">
+          <img width="24" src="{% static 'main/images/facebook_custom.png' %}" alt="">
+        </div>
+        <p>autoschool_astana</p>
+      </div>
+      <div class="d-flex align-items-center">
+        <div class="icon_custom mr-2">
+          <img width="24" src="{% static 'main/images/vk.png' %}" alt="">
+        </div>
+        <p>autoschool_astana</p>
+      </div>
+    </div>
+    <p>
+      
+      &copy; <span id="displayYear"></span> AutoSchool. Барлық құқықтар сақталған.
+    </p>
+  </section>
+  <!-- footer section -->
+
+
+  <script type="text/javascript" src="{% static 'main/js/jquery-3.4.1.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'main/js/bootstrap.js' %} "></script>
+  <script type="text/javascript" src="{% static 'main/js/custom.js' %} "></script>
+
+</body>
+
+</html>

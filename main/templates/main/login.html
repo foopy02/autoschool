@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}
+Логин
+{% endblock %}
+{% block content %}
+<form action="" method="post">
+    <div class=" form-column">
+        <h2 class="text-center mt-4 mb-4">Логин</h2>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="username">Логин</label>
+        <input type="name" class="form-control" name="username" id="username" placeholder="Логин"  required>
+      </div>
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="password">Құпия сөз</label>
+        <input type="password" class="form-control" name="password" id="password"  placeholder="Құпия сөз" required="">
+      </div>
+   
+    <div class="col-lg-3 mx-auto mt-3 mb-5">
+      {% csrf_token %}
+      {% if form.errors %}
+      <div class="alert alert-danger mt-3 mb-0">
+          Пароль немесе логин дұрыс емес
+      </div>
+  {% endif %}
+        <div class="btn-container mt-3">
+          <button type="submit" class="custom_btn">
+            Кіру
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  {% endblock %}

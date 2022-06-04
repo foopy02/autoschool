@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Группалар
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mt-4 mb-4">Топтар</h2>
+   
+    {% for group in groups %}
+    <div class="jumbotron">
+        <h1 class="display-5">{{group.name}}</h1>
+        <p>
+            <span class="lead">Орындар саны: </span><span style="font-size: 1.25rem;font-weight:600">{{group.filled}}/{{group.max_available}}</span> 
+        </p>
+        <p>
+            <span class="lead">Құрылу уақыты: </span><span style="font-size: 1.25rem;font-weight:600">{{group.create_date}}</span> 
+        </p>
+        <p>
+            <span class="lead">Күні: </span><span style="font-size: 1.25rem;font-weight:600">{{group.day}}</span> 
+        </p>
+        <p>
+            <span class="lead">Уақыт: </span><span style="font-size: 1.25rem;font-weight:600">{{group.hours}}</span> 
+        </p>
+        <p class="lead">Қатысушылар тізімі:</p>
+        <ol class="participants">
+            {% for user in group.users.all %}
+                <li>{% if user.last_name == '' %}
+                        {{user.username}}
+                    {% else %}
+                        {{user.first_name}} {{user.last_name}}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+        <hr class="my-4">
+        <p>{{group.description}}</p>
+
+        {% if user in group.users.all %}
+        <p class="lead ">
+            <div class="col-lg-2 ">
+                <a class="custom_btn" href="{% url  'leave' id=group.id %}" role="button">Шығу</a>
+            </div>
+        </p>
+        {% else %}
+        <p class="lead ">
+            <div class="col-lg-2 ">
+                <a class="custom_btn" href="{% url  'add_to_group' id=group.id %}" role="button">Қосылу</a>
+            </div>
+        </p>
+        {% endif %}
+      </div>
+    {% endfor %}
+   
+</div>
+
+{% endblock %}

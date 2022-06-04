@@ -1,0 +1,53 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}
+Профиль
+{% endblock %}
+{% block content %}
+<form action="" method="post">
+    <div class=" form-column">
+        <h2 class="text-center mt-4 mb-4">Профиль</h2>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="first_name">Атыңыз</label>
+        <input type="name" class="form-control" name="first_name" id="first_name" placeholder="{{user.username}}" value="{{user.first_name}}" required>
+      </div>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="last_name">Тегі</label>
+        <input type="name" class="form-control" name="last_name" id="last_name" placeholder="Басбеков" value="{{user.last_name}}" required>
+      </div>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="last_name">Әкесінің аты</label>
+        <input type="name" class="form-control" name="patronym" id="patronym" placeholder="Басбеков" value="{{profile.patronym}}" required>
+      </div>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="last_name">ЖСН</label>
+        <input type="number" class="form-control" name="patronym" id="patronym" placeholder="Басбеков" value="{{profile.IIN}}" required>
+      </div>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="dateofbirth">Туған күн</label>
+        
+        <input type="date" class="form-control" min="16" name="dateofbirth" id="dateofbirth" placeholder="18" value='{{profile.dateofbirth|date:"Y-m-d" }}' required>
+      </div>
+      <div class="col-lg-3 mx-auto  mb-3">
+        <label for="city">Қала</label>
+        <input type="name" class="form-control" name="city" id="last_ncityame" placeholder="Алматы"  value="{{profile.city}}" required>
+      </div>
+
+      {% csrf_token %}
+        {% if form.errors %}
+        <div class="alert alert-danger mt-3 mb-0">
+            Пароль немесе логин дұрыс емес
+        </div>
+    {% endif %}
+    <div class="col-lg-3 mx-auto mt-3 mb-5">
+        <div class="btn-container mt-3">
+          <button type="submit" class="custom_btn">
+            Сақтау
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  {% endblock %}
