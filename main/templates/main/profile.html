@@ -7,6 +7,10 @@
 <form action="" method="post">
     <div class=" form-column">
         <h2 class="text-center mt-4 mb-4">Профиль</h2>
+        <div class="col-lg-3 mx-auto  mb-3 d-flex justify-content-center" style="border-radius: 50%;">
+          
+          <img src="{% if 'media' not in profile.image %} /media/{{profile.image}} {% else %} {{profile.image}} {% endif %}"  class="avatar">
+        </div>
       <div class="col-lg-3 mx-auto  mb-3">
         <label for="first_name">Атыңыз</label>
         <input type="name" class="form-control" name="first_name" id="first_name" placeholder="{{user.username}}" value="{{user.first_name}}" required>
@@ -32,7 +36,6 @@
         <label for="city">Қала</label>
         <input type="name" class="form-control" name="city" id="last_ncityame" placeholder="Алматы"  value="{{profile.city}}" required>
       </div>
-
       {% csrf_token %}
         {% if form.errors %}
         <div class="alert alert-danger mt-3 mb-0">
@@ -45,7 +48,53 @@
             Сақтау
           </button>
         </div>
+        <h1 class="mt-5 mb-2 text-center">Топтар</h1>
+        
       </div>
+      <div class="container">
+        <table class="table mt-5 mb-5">
+          <thead  style="background-color:#022f4a; color: white;">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Аты</th>
+              <th scope="col">Күні</th>
+              <th scope="col">Уақыты</th>
+              <th scope="col">Кұрылған уақыт</th>
+              <th scope="col">Біту</th>
+              <th scope="col">Мұғалім</th>
+              <th scope="col">Курсанттар</th>
+              <th scope="col">Сертификат</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for group in groups %}
+              
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{group.name}}</td>
+              <td>{{group.day}}</td>
+              <td>{{group.hours}}</td>
+              <td>{{group.create_date}}</td>
+              <td>{{group.end_date}}</td>
+              <td>{{group.teacher}}</td>
+              <td  class="text-center" >{{group.users.count}}</td>
+           
+                <td class="text-center">
+                  {% if group.isCertificateAvailable  %}
+                  <a href="/media/certificate.pdf" download="" class="custom_btn">Жүктеу</a>
+                  {% else %}
+                  Курс әлі бітпеді
+                  {% endif %}
+              </form>
+  
+               </td>
+  
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
     </div>
 
   </form>

@@ -4,7 +4,7 @@
 Регистрация
 {% endblock %}
 {% block content %}
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     <div class=" form-column">
         {% csrf_token %}
         <h2 class="text-center mt-4 mb-4">Логин</h2>
@@ -24,7 +24,7 @@
       </div>
       <div class="col-lg-3 mx-auto mb-3">
         <label for="last_name">Әкесінің аты</label>
-        <input type="name" class="form-control" name="patronym" id="patronym" placeholder="Әкесінің аты"  required>
+        <input type="name" class="form-control" name="patronym" id="patronym" placeholder="Әкесінің аты">
       </div>
       <div class="col-lg-3 mx-auto mb-3">
         <label for="last_name">ЖСН</label>
@@ -44,7 +44,11 @@
         <label for="password1">Құпия сөзді қайталау</label>
         <input type="password" class="form-control" name="password1" id="password1"  placeholder="Құпия сөзді қайталау" required="">
       </div>
+      <div class="col-lg-3 mx-auto mb-3">
+        <label for="">Профиль суреті</label>
 
+      <input type="file" name="myfile" required>
+      </div>
       <div class="col-lg-3 mx-auto mt-3 mb-5">
         {% if form.errors %}
         <div class="alert alert-danger mt-3 mb-0">

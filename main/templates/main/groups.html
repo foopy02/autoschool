@@ -12,10 +12,25 @@
     <div class="jumbotron">
         <h1 class="display-5">{{group.name}}</h1>
         <p>
+            <img src="/media/{{group.teacher.image}}"  class="avatar group ml-5">
+
+            <span class="lead">Инструктор: </span><span style="font-size: 1.25rem;font-weight:600">{{group.teacher.first_name}} {{group.teacher.last_name}}</span> 
+            <div class="ml-5"><span>Ұялы телефон:</span> <strong>{{group.teacher.phone_number}}</strong> </div>
+            <div class="ml-5"><span>Поштасы:</span>  <strong>{{group.teacher.email}}</strong></div>
+        </p>
+        <p>
             <span class="lead">Орындар саны: </span><span style="font-size: 1.25rem;font-weight:600">{{group.filled}}/{{group.max_available}}</span> 
         </p>
         <p>
             <span class="lead">Құрылу уақыты: </span><span style="font-size: 1.25rem;font-weight:600">{{group.create_date}}</span> 
+        </p>
+        {% if not group.isCertificateAvailable %}
+        <p>
+            <span class="lead">Жабылу уақыты: </span><span style="font-size: 1.25rem;font-weight:600">{{group.close_date}}</span> 
+        </p>
+        {% endif %}
+        <p>
+            <span class="lead">Курстың созылуы: </span><span style="font-size: 1.25rem;font-weight:600">30 күн</span> 
         </p>
         <p>
             <span class="lead">Күні: </span><span style="font-size: 1.25rem;font-weight:600">{{group.day}}</span> 
@@ -37,7 +52,13 @@
         <hr class="my-4">
         <p>{{group.description}}</p>
 
-        {% if user in group.users.all %}
+        {% if group.isCertificateAvailable %}
+        <p class="lead ">
+            <div class="col-lg-6 ">
+                КУРС {{group.end_date}} ЖАБЫЛДЫ
+            </div>
+        </p>
+        {% elif user in group.users.all %}
         <p class="lead ">
             <div class="col-lg-2 ">
                 <a class="custom_btn" href="{% url  'leave' id=group.id %}" role="button">Шығу</a>
@@ -52,7 +73,7 @@
         {% endif %}
       </div>
     {% endfor %}
-   
+
 </div>
 
 {% endblock %}

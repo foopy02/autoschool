@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -7,7 +8,10 @@ class Teacher(models.Model):
     patronym = models.CharField(max_length=35,verbose_name="Әкесінің аты")
     phone_number = models.CharField(max_length=200, verbose_name="Ұялы телефон")
     email = models.EmailField(verbose_name="Почтасы")
-    
+    image = models.ImageField(upload_to='images', verbose_name="Суреті")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}" 
 # Create your models here.
 class Group(models.Model):
     class Days():
@@ -64,6 +68,10 @@ class Group(models.Model):
     filled = models.IntegerField(default=0,verbose_name="Неше оқушы бар")
     max_available = models.IntegerField(default=30,verbose_name="Максималды оқушылар саны")
     create_date = models.DateTimeField(auto_now_add=True,verbose_name="Құрылған уақыты")
+    isCertificateAvailable = models.BooleanField(default=False,verbose_name="Курс бітті ма?")
+    isClosed = models.BooleanField(default=False, verbose_name='Жабық па?')
+    close_date = models.DateTimeField(verbose_name="Жабылу уақыты", default=datetime.datetime.now() + datetime.timedelta(days = 3))
+    end_date = models.DateTimeField(verbose_name="Біту уақыты", default=datetime.datetime.now() + datetime.timedelta(days = 30))
     users = models.ManyToManyField(User,verbose_name="Оқушылар")
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -73,8 +81,9 @@ class Group(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE,verbose_name="Қолданушы")
     dateofbirth = models.DateField(verbose_name="Туған күні")
-    city = models.CharField(max_length=255, null=True, blank=True,verbose_name="Қала")
+    city = models.CharField(max_length=255, default="Енгізілмеген",verbose_name="Қала")
     IIN = models.CharField(max_length=20,verbose_name="ЖСН")
     patronym = models.CharField(max_length=35,verbose_name="Әкесінің аты")
+    image = models.ImageField(upload_to='images')
     def __str__(self):
         return self.user.username

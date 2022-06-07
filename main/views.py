@@ -9,8 +9,12 @@ from django.utils import timezone
 from .models import Profile, Group
 from django.utils.dateparse import parse_date
 import random
+import datetime
+from django.utils import timezone
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 def index(request):
+    print("hkfd")
     context = {
 
     }
@@ -19,8 +23,12 @@ def index(request):
 
 @login_required(login_url='/login/')
 def profile(request):
+    groups = Group.objects.all()
+    user_groups = [x for x in groups if request.user in x.users.all()]
+    print(user_groups)
     context = {
-        'profile':Profile.objects.get(user=User.objects.get(username=request.user.username))
+        'profile':Profile.objects.get(user=User.objects.get(username=request.user.username)),
+        'groups':user_groups
     }
     if request.method == "POST":
         first_name = request.POST.get("first_name")
@@ -53,7 +61,7 @@ def add_to_group(request, id):
     group = Group.objects.get(id=id)
     group.users.add(request.user)
     group.save()
-    return redirect("groups")
+    return render(request, 'main/gratz_group.html', {})
 
 @login_required(login_url='/login/')
 def users(request):
@@ -88,8 +96,12 @@ def change_group(request):
 def fix_groups_participants(groups):
     for group in groups:
         group.filled = len(group.users.all())
+        if timezone.now() > group.close_date + datetime.timedelta(days=30):
+            group.isCertificateAvailable = True
+        else:
+            print(group.close_date + datetime.timedelta(days=30))
         group.save()
-        group.id
+
 
 @login_required(login_url='/login/')
 def groups(request):
@@ -120,17 +132,20 @@ def register(request):
         username = request.POST.get("username")
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
-        patronym = request.POST.get("patronym")
+        patronym = request.POST.get("patronym", "")
         IIN = request.POST.get("IIN")
         dateofbirth = request.POST.get("dateofbirth")
         password = request.POST.get('password')
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        print(filename)
+        uploaded_file_url = fs.url("images/"+filename)
         user = User(username=username,first_name=first_name,last_name=last_name)
         user.set_password(password)
         user.save()
-        print(request.POST)
         dateofbirth = parse_date(dateofbirth)
-        print(dateofbirth)
-        profile = Profile(user=user, dateofbirth=dateofbirth, IIN=IIN,patronym=patronym)
+        profile = Profile(user=user, dateofbirth=dateofbirth, IIN=IIN, patronym=patronym, image=uploaded_file_url)
         profile.save()
         
         return redirect("login")

@@ -29,3 +29,5 @@ class RegisterUserForm(forms.ModelForm):
             profile.save()
 
         return user
+    
+
